@@ -9,10 +9,10 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-func NewLogger(logLevel LogLevel, logFileName string, service string, app string) *zap.Logger {
+func NewLogger(logLevel LogLevel, logFolder string, logFileName string, service string, app string) *zap.Logger {
 	zapCfg := zap.NewProductionConfig()
 	zapCfg.EncoderConfig.EncodeTime = zapcore.RFC3339TimeEncoder
-	filepath := createOrSelectLogFileFolder(logFileName)
+	filepath := createOrSelectLogFileFolder(logFolder, logFileName)
 	zapCfg.OutputPaths = []string{filepath}
 	lvl, err := logLevelToZapLogLevel(logLevel)
 	if err != nil {
@@ -30,13 +30,9 @@ func NewLogger(logLevel LogLevel, logFileName string, service string, app string
 	return logger
 }
 
-func createOrSelectLogFileFolder(fileName string) string {
-	homedir, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatalf("Could not determine home directory: %v", err)
-	}
-	logfolder := filepath.Join(homedir, "logs")
-	err = os.MkdirAll(logfolder, os.ModePerm)
+func createOrSelectLogFileFolder(logFolder string, fileName string) string {
+	logfolder := filepath.Join(logFolder, "logs")
+	err := os.MkdirAll(logfolder, os.ModePerm)
 	if err != nil {
 		log.Fatalf("Could not create the directory for logs: %v", err)
 	}
