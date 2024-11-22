@@ -18,10 +18,7 @@ type LoggerOptions struct {
 
 // Creates default options with level info, folder current directory/logs, file name = "logs.log", namespace = "namespace"
 func NewLoggerOptions() *LoggerOptions {
-	opts := &LoggerOptions{
-		level:    Info,
-		fileName: "logs",
-	}
+	opts := &LoggerOptions{level: Info}
 	wd, _ := os.Getwd()
 	opts.SetFolder(wd)
 	service, serviceType, _ := getModuleName()
@@ -34,6 +31,7 @@ func (o *LoggerOptions) SetLevel(level LogLevel) {
 	o.level = level
 }
 
+// Log folder will be created a child of set folder
 func (o *LoggerOptions) SetFolder(folder string) {
 	o.folder = path.Join(folder, "logs")
 }

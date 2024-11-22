@@ -31,11 +31,10 @@ func NewLogger(opts *LoggerOptions) *zap.Logger {
 }
 
 func createOrSelectLogFileFolder(logFolder string, fileName string) string {
-	folder := filepath.Join(logFolder, "logs")
-	err := os.MkdirAll(folder, os.ModePerm)
+	err := os.MkdirAll(logFolder, os.ModePerm)
 	if err != nil {
 		log.Fatalf("Could not create the directory for logs: %v", err)
 	}
-	filepath := filepath.Join(folder, fileName)
+	filepath := filepath.Join(logFolder, fileName)
 	return filepath
 }
