@@ -26,6 +26,7 @@ func NewLoggerOptions() *LoggerOptions {
 	opts.SetFolder(wd)
 	service, serviceType, _ := getModuleName()
 	opts.SetServiceAndAppName(service, ServiceType(serviceType))
+	opts.SetFileName(service + "-" + serviceType)
 	return opts
 }
 
